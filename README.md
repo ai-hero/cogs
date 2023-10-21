@@ -50,5 +50,5 @@ Use Github codespaces!
 
 We are excited about the limitless possibilities that Cogs offers and are eager to witness the innovative applications and enhancements that the community will bring. Join us in shaping the future of interactive, adaptive, and intelligent agent technology!
 
-### Disclaimer Regarding involvement of AI Hero
-While AI Hero is committed to keeping this Open Source, AI Hero wants to use this project as a means of "Research in Public" - we want to figure out how agents can be created, instructed, and run.
+### Disclaimer: Regarding Involvement of AI Hero
+While AI Hero is committed to keeping this Open Source, AI Hero wants to use this project as a means of "Research in Public" - we want to figure out how agents can be created, instructed, and run. With that in mind, we might use insert some OPTIONAL code hooked to AI Hero services so that the system can be improved. For example, we will be adding prompt versioning and tracking, to this using PromptStash and PromptCraft.
