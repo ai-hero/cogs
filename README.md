@@ -49,3 +49,6 @@ Connect with a vibrant community of developers and AI enthusiasts. Share your in
 Use Github codespaces!
 
 We are excited about the limitless possibilities that Cogs offers and are eager to witness the innovative applications and enhancements that the community will bring. Join us in shaping the future of interactive, adaptive, and intelligent agent technology!
+
+### Disclaimer Regarding involvement of AI Hero
+While AI Hero is committed to keeping this Open Source, AI Hero wants to use this project as a means of "Research in Public" - we want to figure out how agents can be created, instructed, and run.
