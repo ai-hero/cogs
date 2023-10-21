@@ -25,7 +25,7 @@ python agent/chat.py
 ```
 
 ## Contribute to Cogs’ Growth
-Join us in enhancing and expanding the Cogs ecosystem. Your insights, skills, and contributions are invaluable.
+Join us in enhancing and expanding the Cogs ecosystem. Your insights, skills, and contributions are invaluable. 
 
 ### Future
 
@@ -43,5 +43,8 @@ Once confident in your contributions, initiate a pull request. Remember, the pri
 
 ### Community Engagement
 Connect with a vibrant community of developers and AI enthusiasts. Share your insights, seek assistance, and collaborate on projects to push the boundaries of what Cogs can achieve.
+
+### Pro-tip:
+Use Github codespaces!
 
 We are excited about the limitless possibilities that Cogs offers and are eager to witness the innovative applications and enhancements that the community will bring. Join us in shaping the future of interactive, adaptive, and intelligent agent technology!
