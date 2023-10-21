@@ -19,6 +19,11 @@ Ensure you have all the necessary packages installed to run your agent seamlessl
 pip install -r agent/requirements.txt
 ```
 
+### Set Environment Variables
+```
+OPENAI_API_KEY=<YOUR KEY HERE>
+```
+
 ### Run Your Agent
 Initiate a conversation with your agent and begin the interactive experience.
 ```
@@ -52,3 +57,5 @@ We are excited about the limitless possibilities that Cogs offers and are eager 
 
 ### Disclaimer: Regarding Involvement of AI Hero
 While AI Hero is committed to keeping this Open Source, AI Hero wants to use this project as a means of "Research in Public" - we want to figure out how agents can be created, instructed, and run. With that in mind, we might use insert some OPTIONAL code hooked to AI Hero services so that the system can be improved. For example, we will be adding prompt versioning and tracking, to this using PromptStash and PromptCraft.
+
+** No data will be sent to AI Hero if you don't set the env vars for it **
