@@ -27,7 +27,7 @@ def chat(prompt):
     messages.append(response['choices'][0]['message'])
     while True:
         user_input = input("You: ")
-        if user_input.strip().upper() == 'END':
+        if user_input.strip().lower() == 'end':
             break
             
         messages.append({'role': 'user', 'content': user_input})
@@ -48,26 +48,37 @@ def collect_feedback():
     return feedback
 
 def update_prompt(prompt, conversation, feedback):
-    """Update the prompt with for the agent."""
+    """Update the prompt for the agent."""
     if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'reflect.prompt')):
-        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'reflect.prompt'), 'r', encoding="utf-8") as file:
-            reflect_prompt = file.read().strip()
+        while True:  # Loop to continuously improve the prompt based on user feedback
+            with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'reflect.prompt'), 'r', encoding="utf-8") as file:
+                reflect_prompt = file.read().strip()
 
-        messages = [
-            {'role': 'system', 'content': reflect_prompt},
-            {'role': 'user', 'content': f"Original Instructions:\n{prompt}\nLast Conversation:\n{conversation}\nFeedback:\n{feedback}"}
-        ]
-        
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages
-        )
-        
-        new_prompt = response['choices'][0]['message']['content'].strip()
+            messages = [
+                {'role': 'system', 'content': reflect_prompt},
+                {'role': 'user', 'content': f"Original Instructions:\n{prompt}\nLast Conversation:\n{conversation}\nFeedback:\n{feedback}"}
+            ]
+            
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=messages
+            )
+            
+            new_prompt = response['choices'][0]['message']['content'].strip()
+            print("\nNew Prompt:", new_prompt)
 
-        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instructions.prompt'), 'w', encoding="utf-8") as file:
-            file.write(new_prompt)
-            print("The instructions.prompt file has been updated.")
+            # Ask the user for confirmation or additional feedback
+            user_input = input("Is this new prompt up to your liking? (yes/no): ").strip().lower()
+            if user_input.lower() == 'yes':
+                with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instructions.prompt'), 'w', encoding="utf-8") as file:
+                    file.write(new_prompt)
+                    print("The instructions.prompt file has been updated.")
+                break  # Exit the loop if the user is satisfied
+            elif user_input.lower() == 'no':
+                feedback = input("Please provide additional feedback to refine the prompt: ").strip()
+                # Loop will continue with the new feedback
+            else:
+                print("Invalid input. Please type 'yes' or 'no'.")
     else:
         print("Reflect prompt file not found.")
 

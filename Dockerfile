@@ -10,5 +10,7 @@ COPY . /agent
 # Run the command to install any necessary dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+WORKDIR /agent
+
 # Run hello.py when the container launches
 CMD ["bash", "entrypoint.sh"]
