@@ -3,6 +3,7 @@
 Cogs is a dynamic open-source framework that empowers developers, data scientists, and AI enthusiasts to construct and evolve intelligent agents seamlessly. With a focus on interaction, every engagement with the agent is structured as a conversation, enabling intuitive and natural communication. 
 
 ## Core Features
+
 ### Adaptive Learning
 Cogs agents are designed to learn and adapt. Following every interaction, users have the opportunity to provide feedback and modify the agent’s instructions. This iterative feedback loop ensures continuous learning and refinement, enhancing the agent’s performance over time.
 
