@@ -1,6 +1,6 @@
 # Cogs: Your Open-source Agent Creation Framework
 
-Cogs is a dynamic open-source framework that empowers developers, data scientists, and AI enthusiasts to construct and evolve intelligent agents seamlessly. With a focus on interaction, every engagement with the agent is structured as a conversation, enabling intuitive and natural communication. 
+Cogs is a dynamic open-source framework that empowers developers, data scientists, and AI enthusiasts to construct and evolve intelligent agents seamlessly. "Cogs" comes from a combination of cognitive processes and the cogs of a machine. Instead of chains, we see agents being a combination of cognitive processes working towards a goal. Each cognitive process can be executed with an LLM e.g. ONE instance of OpenAI's ChatGPT chat, primed by a prompt for that cognitive process. The simplest Cogs agent will have two processes (and prompts) - ONE for interacting with the user, ONE for reflection and improving the prompt, such that the next time the agent runs, it will interact with the user with the improved prompt.
 
 ## Core Features
 
