@@ -1,0 +1,166 @@
+[
+    {
+        "name": "get_current_weather",
+        "description": "Get the current weather in a given location",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "location": {
+                    "type": "string",
+                    "description": "The city and state, e.g. San Francisco, CA"
+                },
+                "unit": {
+                    "type": "string",
+                    "enum": ["celsius", "fahrenheit"],
+                    "default": "fahrenheit"
+                }
+            },
+            "required": ["location"]
+        }
+    },
+    {
+        "name": "calculate_tax",
+        "description": "Calculate tax for a given amount",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "description": "The amount of money"
+                },
+                "tax_rate": {
+                    "type": "number",
+                    "description": "The tax rate to apply"
+                }
+            },
+            "required": ["amount", "tax_rate"]
+        }
+    },
+    {
+        "name": "generate_password",
+        "description": "Generate a random password of a given length",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "length": {
+                    "type": "integer",
+                    "description": "Length of the password"
+                }
+            },
+            "required": ["length"]
+        }
+    },
+    {
+        "name": "fibonacci_sequence",
+        "description": "Generate a Fibonacci sequence up to the nth number",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "n": {
+                    "type": "integer",
+                    "description": "The length of the Fibonacci sequence"
+                }
+            },
+            "required": ["n"]
+        }
+    },
+    {
+        "name": "get_file_extension",
+        "description": "Get the file extension from a filename",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "The filename to extract the extension from"
+                }
+            },
+            "required": ["filename"]
+        }
+    },
+    {
+        "name": "convert_km_to_miles",
+        "description": "Convert kilometers to miles",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "km": {
+                    "type": "number",
+                    "description": "The number of kilometers to convert"
+                }
+            },
+            "required": ["km"]
+        }
+    },
+    {
+        "name": "send_email",
+        "description": "Send an email from sender to receiver",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sender": {
+                    "type": "string",
+                    "description": "The email address of the sender"
+                },
+                "receiver": {
+                    "type": "string",
+                    "description": "The email address of the receiver"
+                },
+                "subject": {
+                    "type": "string",
+                    "description": "The subject of the email"
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The body content of the email"
+                }
+            },
+            "required": ["sender", "receiver", "subject", "body"]
+        }
+    },
+    {
+        "name": "sort_list",
+        "description": "Sort a list of elements",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "input_list": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "description": "The list of elements to sort"
+                }
+            },
+            "required": ["input_list"]
+        }
+    },
+    {
+        "name": "is_prime",
+        "description": "Determine if a number is prime",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "number": {
+                    "type": "integer",
+                    "description": "The number to check for primality"
+                }
+            },
+            "required": ["number"]
+        }
+    },
+    {
+        "name": "countdown_timer",
+        "description": "A countdown timer that counts down from a given number of seconds",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "seconds": {
+                    "type": "integer",
+                    "description": "The number of seconds to count down from"
+                }
+            },
+            "required": ["seconds"]
+        }
+    }
+]
