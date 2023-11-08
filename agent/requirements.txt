@@ -1,1 +1,3 @@
-openai
+openai==0.28.1
+chromadb==0.4.10
+python-dotenv

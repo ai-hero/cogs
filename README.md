@@ -13,6 +13,9 @@ Cogs thrives on the collective intelligence of a global community of developers.
 ## Getting Started with Cogs
 Embark on your journey to create intelligent, responsive agents by cloning or forking the Cogs repository. Follow the detailed instructions to set up and customize your agent.
 
+## Skills
+Skills are a repo of functions that the agent knows about. When asked, the agent can call using a list of function. For now the skills are not acquired, they are hardcoded. 
+
 ### Install Requirements
 Ensure you have all the necessary packages installed to run your agent seamlessly.
 ```

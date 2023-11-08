@@ -1,9 +1,8 @@
 import openai
 import os
-
-# Replace with your OpenAI API key
-openai.api_key = os.environ["OPENAI_API_KEY"]
-
+import dotenv
+from skills.db import SkillsDB
+import json
 def load_prompt():
     """Load the prompt"""
     if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instructions.prompt')):
@@ -15,12 +14,12 @@ def load_prompt():
     else:
         raise FileNotFoundError("Neither agent.prompt nor purpose.prompt found!")
 
-def chat(prompt):
+def chat(prompt, skills_db):
     """Chat with the user"""
     print("You are now chatting with the agent. Type END to end the conversation.")
     messages = [{'role': 'system', 'content': prompt}]
     response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4",
             messages=messages
         )
     print("Agent:", response['choices'][0]['message']['content'].strip())
@@ -29,13 +28,39 @@ def chat(prompt):
         user_input = input("You: ")
         if user_input.strip().lower() == 'end':
             break
-            
+        
         messages.append({'role': 'user', 'content': user_input})
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages
-        )
-        print("Agent:", response['choices'][0]['message']['content'].strip())
+        relevant_skills = skills_db.search(user_input)
+        if len(relevant_skills) > 0:
+            print("Relevant skills:", relevant_skills)
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
+                messages=messages,
+                functions=relevant_skills
+            )
+            if response['choices'][0]['message']['role'] == 'assistant' and response['choices'][0]['message']['content'] is None:
+                to_call = response['choices'][0]['message']["function_call"]
+                resp = skills_db.execute_command(to_call['name'], json.loads(to_call['arguments']))
+                messages.append( # adding function response to messages
+                    {
+                        "role": "function",
+                        "name": to_call['name'],
+                        "content": f"{resp}",
+                    }
+                ) 
+                response = openai.ChatCompletion.create(
+                    model="gpt-4",
+                    messages=messages,
+                )
+                print("Agent (using skills):", response['choices'][0]['message']['content'].strip())
+            else:
+                response = openai.ChatCompletion.create(
+                    model="gpt-4",
+                    messages=messages,
+                )
+                print("Agent (no known skills):", response['choices'][0]['message']['content'].strip())
+        else:
+            print("Agent:", response['choices'][0]['message']['content'].strip())
         messages.append(response['choices'][0]['message'])
 
     return "\n".join([f"{message['role']}: {message['content']}\n" for message in messages])
@@ -60,7 +85,7 @@ def update_prompt(prompt, conversation, feedback):
             ]
             
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4",
                 messages=messages
             )
             
@@ -84,8 +109,16 @@ def update_prompt(prompt, conversation, feedback):
 
 def main():
     """Main loop`"""
+    if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')):
+        print("Loading .env file")
+        dotenv.load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
+
+    # Replace with your OpenAI API key
+    openai.api_key = os.environ["OPENAI_API_KEY"]
+    skills_db = SkillsDB()
+    
     prompt = load_prompt()
-    conversation = chat(prompt)
+    conversation = chat(prompt, skills_db)
     feedback = collect_feedback()
     update_prompt(prompt, conversation, feedback)
 
