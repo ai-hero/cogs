@@ -1,24 +1,5 @@
 [
     {
-        "name": "get_current_weather",
-        "description": "Get the current weather in a given location",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "location": {
-                    "type": "string",
-                    "description": "The city and state, e.g. San Francisco, CA"
-                },
-                "unit": {
-                    "type": "string",
-                    "enum": ["celsius", "fahrenheit"],
-                    "default": "fahrenheit"
-                }
-            },
-            "required": ["location"]
-        }
-    },
-    {
         "name": "calculate_tax",
         "description": "Calculate tax for a given amount",
         "parameters": {
@@ -161,6 +142,38 @@
                 }
             },
             "required": ["seconds"]
+        }
+    },
+    {
+        "name": "get_current_weather",
+        "description": "Fetch weather data for a specified city using OpenWeatherMap API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "city_name": {
+                    "type": "string",
+                    "description": "Name of the city for which to retrieve weather data"
+                }
+            },
+            "required": ["city_name"]
+        }
+    },
+    {
+        "name": "get_exchange_rate",
+        "description": "Fetch the exchange rate from a base currency to a target currency using the ExchangeRate-API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "base_currency": {
+                    "type": "string",
+                    "description": "The base currency code to convert from"
+                },
+                "target_currency": {
+                    "type": "string",
+                    "description": "The target currency code to convert to"
+                }
+            },
+            "required": [ "base_currency", "target_currency"]
         }
     }
 ]

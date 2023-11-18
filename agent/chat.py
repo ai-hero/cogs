@@ -19,7 +19,7 @@ def chat(prompt, skills_db):
     print("You are now chatting with the agent. Type END to end the conversation.")
     messages = [{'role': 'system', 'content': prompt}]
     response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-3.5-turbo",
             messages=messages
         )
     print("Agent:", response['choices'][0]['message']['content'].strip())
@@ -32,33 +32,40 @@ def chat(prompt, skills_db):
         messages.append({'role': 'user', 'content': user_input})
         relevant_skills = skills_db.search(user_input)
         if len(relevant_skills) > 0:
-            print("Relevant skills:", relevant_skills)
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=messages,
-                functions=relevant_skills
-            )
-            if response['choices'][0]['message']['role'] == 'assistant' and response['choices'][0]['message']['content'] is None:
-                to_call = response['choices'][0]['message']["function_call"]
-                resp = skills_db.execute_command(to_call['name'], json.loads(to_call['arguments']))
-                messages.append( # adding function response to messages
-                    {
-                        "role": "function",
-                        "name": to_call['name'],
-                        "content": f"{resp}",
-                    }
-                ) 
+            if will_it_help(user_input, relevant_skills[0]['description']):
                 response = openai.ChatCompletion.create(
-                    model="gpt-4",
+                    model="gpt-3.5-turbo",
                     messages=messages,
+                    functions=relevant_skills
                 )
-                print("Agent (using skills):", response['choices'][0]['message']['content'].strip())
+                if response['choices'][0]['message']['role'] == 'assistant' and response['choices'][0]['message']['content'] is None:
+                    to_call = response['choices'][0]['message']["function_call"]
+                    resp = skills_db.execute_command(to_call['name'], json.loads(to_call['arguments']))
+                    messages.append( # adding function response to messages
+                        {
+                            "role": "function",
+                            "name": to_call['name'],
+                            "content": f"{resp}",
+                        }
+                    ) 
+                    response = openai.ChatCompletion.create(
+                        model="gpt-3.5-turbo",
+                        messages=messages,
+                    )
+                    print("Agent (using skills):", response['choices'][0]['message']['content'].strip())
+                else:
+                    response = openai.ChatCompletion.create(
+                        model="gpt-3.5-turbo",
+                        messages=messages,
+                    )
+                    print("Agent (no matching skills):", response['choices'][0]['message']['content'].strip())
             else:
                 response = openai.ChatCompletion.create(
-                    model="gpt-4",
-                    messages=messages,
-                )
+                        model="gpt-3.5-turbo",
+                        messages=messages,
+                    )
                 print("Agent (no known skills):", response['choices'][0]['message']['content'].strip())
+
         else:
             print("Agent:", response['choices'][0]['message']['content'].strip())
         messages.append(response['choices'][0]['message'])
@@ -85,7 +92,7 @@ def update_prompt(prompt, conversation, feedback):
             ]
             
             response = openai.ChatCompletion.create(
-                model="gpt-4",
+                model="gpt-3.5-turbo",
                 messages=messages
             )
             
@@ -106,6 +113,14 @@ def update_prompt(prompt, conversation, feedback):
                 print("Invalid input. Please type 'yes' or 'no'.")
     else:
         print("Reflect prompt file not found.")
+
+def will_it_help(question, function_description):
+    messages = [{'role': 'user', 'content': f"Will the python function '{function_description}' help me with '{question}'?"}]
+    response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=messages
+        )
+    return 'yes' in response['choices'][0]['message']['content'].lower()
 
 def main():
     """Main loop`"""
