@@ -32,7 +32,6 @@ def chat(prompt, skills_db):
         messages.append({'role': 'user', 'content': user_input})
         relevant_skills = skills_db.search(user_input)
         if len(relevant_skills) > 0:
-            print("Relevant skills:", relevant_skills)
             response = openai.ChatCompletion.create(
                 model="gpt-4",
                 messages=messages,

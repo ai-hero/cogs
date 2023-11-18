@@ -1,17 +1,6 @@
 import os
 import requests
 
-# Function 1
-def get_current_weather(location, unit='fahrenheit'):
-    # This function is a placeholder for getting current weather
-    # Replace with actual API call or logic to get weather
-    return {
-        "location": location,
-        "temperature": "72",
-        "unit": unit,
-        "forecast": ["sunny", "windy"],
-    }
-
 # Function 2
 def calculate_tax(amount, tax_rate):
     return amount * tax_rate
@@ -67,10 +56,11 @@ def countdown_timer(seconds):
         time.sleep(1)
         seconds -= 1
 
-def get_weather(city_name):
+def get_current_weather(city_name):
+    lat, lon = get_lat_lon(city_name)
     api_key = os.environ["OPENWEATHERMAP_API_KEY"]
     base_url = "http://api.openweathermap.org/data/2.5/weather?"
-    complete_url = f"{base_url}appid={api_key}&q={city_name}"
+    complete_url = f"{base_url}appid={api_key}&lat={lat}&lon={lon}"
     response = requests.get(complete_url)
     return response.json()
 
@@ -80,3 +70,19 @@ def get_exchange_rate(base_currency, target_currency):
     response = requests.get(url)
     return response.json()
 
+def get_lat_lon(city_name):
+    api_key = os.environ["OPENWEATHERMAP_API_KEY"]
+    
+    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+    complete_url = f"{base_url}q={city_name}&appid={api_key}"
+
+    response = requests.get(complete_url)
+    data = response.json()
+
+    if data["cod"] != 200:
+        return f"Error: {data['message']}"
+
+    latitude = data["coord"]["lat"]
+    longitude = data["coord"]["lon"]
+
+    return latitude, longitude
