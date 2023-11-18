@@ -1,3 +1,6 @@
+import os
+import requests
+
 # Function 1
 def get_current_weather(location, unit='fahrenheit'):
     # This function is a placeholder for getting current weather
@@ -63,3 +66,17 @@ def countdown_timer(seconds):
         print(timeformat, end='\r')
         time.sleep(1)
         seconds -= 1
+
+def get_weather(city_name):
+    api_key = os.environ["OPENWEATHERMAP_API_KEY"]
+    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+    complete_url = f"{base_url}appid={api_key}&q={city_name}"
+    response = requests.get(complete_url)
+    return response.json()
+
+def get_exchange_rate(base_currency, target_currency):
+    api_key = os.environ["EXCHANGERATE_API_KEY"]
+    url = f"https://v6.exchangerate-api.com/v6/{api_key}/pair/{base_currency}/{target_currency}"
+    response = requests.get(url)
+    return response.json()
+
