@@ -3,6 +3,7 @@ import os
 import dotenv
 from skills.db import SkillsDB
 import json
+import time
 def load_prompt():
     """Load the prompt"""
     if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instructions.prompt')):
@@ -28,7 +29,7 @@ def chat(prompt, skills_db):
         user_input = input("You: ")
         if user_input.strip().lower() == 'end':
             break
-        
+        tic = time.perf_counter()
         messages.append({'role': 'user', 'content': user_input})
         relevant_skills = skills_db.search(user_input)
         if len(relevant_skills) > 0:
@@ -68,6 +69,8 @@ def chat(prompt, skills_db):
 
         else:
             print("Agent:", response['choices'][0]['message']['content'].strip())
+        toc = time.perf_counter()
+        print(f"\t\t\t\t({toc - tic:0.4f}s)")
         messages.append(response['choices'][0]['message'])
 
     return "\n".join([f"{message['role']}: {message['content']}\n" for message in messages])
